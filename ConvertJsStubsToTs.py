@@ -12,8 +12,9 @@ __maintainer__ = "Eric Ahrens"
 __email__ = "eric.n.ahrens@gmail.com"
 
 stubspath = "C:/Program Files (x86)/Bitwig Studio/resources/doc/control-surface/js-stubs"
-result_filename = "E:/pycharm/a.d.ts"
+result_filename = "BitwigControllerApi.d.ts"
 with_comments = True
+with_types = True
 
 head = "declare function loadAPI(val: number): void;\n" \
        "declare function println(s : string) : void;\n" \
@@ -78,15 +79,15 @@ parameterPaths = {
     'Clip.addColorObserver.callback' : 'callback : (red: number, green: number, blue: number ) => void',
     'Scene.addClipCountObserver.callback' : 'callback : (count: number) => void',
     'ClipLauncherScenesOrSlots.addNameObserver.callback': 'callback : (name: string) => void',
-    'ClipLauncherSlots.addIsSelectedObserver.callback': 'callback : (selected: boolean) => void',
-    'ClipLauncherSlots.addHasContentObserver.callback': 'callback : (hasContent: boolean ) => void',
-    'ClipLauncherSlots.addPlaybackStateObserver.callback': 'callback : (playback: boolean) => void',
-    'ClipLauncherSlots.addIsPlayingObserver.callback': 'callback : (playing: boolean) => void',
-    'ClipLauncherSlots.addIsRecordingObserver.callback': 'callback : (recording: boolean) => void',
-    'ClipLauncherSlots.addIsPlaybackQueuedObserver.callback': 'callback : (playbackQueued: boolean) => void',
-    'ClipLauncherSlots.addIsRecordingQueuedObserver.callback': 'callback : (recordingQueued: boolean) => void',
-    'ClipLauncherSlots.addIsStopQueuedObserver.callback': 'callback : (stopQueued: boolean) => void',
-    'ClipLauncherSlots.addColorObserver.callback': 'callback : (red: number, green: number, blue: number) => void',
+    'ClipLauncherSlots.addIsSelectedObserver.callback': 'callback : (index: number, selected: boolean) => void',
+    'ClipLauncherSlots.addHasContentObserver.callback': 'callback : (index: number, hasContent: boolean ) => void',
+    'ClipLauncherSlots.addPlaybackStateObserver.callback': 'callback : (index: number, state: number, queued: boolean) => void',
+    'ClipLauncherSlots.addIsPlayingObserver.callback': 'callback : (index: number, playing: boolean) => void',
+    'ClipLauncherSlots.addIsRecordingObserver.callback': 'callback : (index: number, recording: boolean) => void',
+    'ClipLauncherSlots.addIsPlaybackQueuedObserver.callback': 'callback : (index: number, playbackQueued: boolean) => void',
+    'ClipLauncherSlots.addIsRecordingQueuedObserver.callback': 'callback : (index: number, recordingQueued: boolean) => void',
+    'ClipLauncherSlots.addIsStopQueuedObserver.callback': 'callback : (index: number, stopQueued: boolean) => void',
+    'ClipLauncherSlots.addColorObserver.callback': 'callback : (index: number, red: number, green: number, blue: number) => void',
     'Cursor.addCanSelectPreviousObserver.callback': 'callback : (canSelect: boolean) => void',
     'Cursor.addCanSelectNextObserver.callback': 'callback : (canSelect: boolean) => void',
     'Device.addPositionObserver.callback': 'callback : (position: number) => void',
@@ -168,7 +169,7 @@ parameterPaths = {
     'Transport.addPreRollClickObserver.callback': 'callback : (enabled: boolean) => void',
     'Transport.addPreRollObserver.callback': 'callback : (enabled: boolean) => void',
     'Transport.addClipLauncherPostRecordingActionObserver.callback': 'callback : (status: string) => void',
-    'Value.addValueObserver.callback': 'callback : (value: number) => void',
+    'Value.addValueObserver.callback': 'callback : (value) => void',
 }
 
 functionPaths = {
@@ -226,7 +227,7 @@ class Method:
             for idx in range(4, len(deflist)):
                 param = Parameter(deflist[idx], comment)
                 qpath = className + "." + self.__name + "." + param.name
-                if qpath in parameterPaths:
+                if qpath in parameterPaths and with_types:
                     ref = parameterPaths[qpath]
                     if ref != -1:
                         param.overwrite(ref)
@@ -234,7 +235,7 @@ class Method:
                 else:
                     self.__parameters.append(param)
                     if param.type_str == 'function':
-                        print "    '" + className + "." + self.__name + "." + param.name + "' : '" + param.name + " : ( ) => void',"
+                        print ("    \'" + className + "." + self.__name + "." + param.name + "' : '" + param.name + " : ( ) => void',")
 
     def is_constructor(self):
         return self.__constructor
@@ -252,22 +253,23 @@ class Method:
 
             file.write("     " + self.__name + "(")
             q_path = class_name + "." + self.__name
-            if q_path in functionPaths:
+            if q_path in functionPaths and with_types:
                 file.write(functionPaths[q_path])
             else:
                 for idx, parameter in enumerate(self.__parameters):
-                    if parameter.type:
+                    if parameter.type and with_types:
                         file.write(parameter.name + " : " + parameter.type)
                     else:
                         file.write(parameter.name)
                     if idx < len(self.__parameters) - 1:
                         file.write(", ")
-
-            if self.__returntype:
-                file.write(") : " + self.__returntype)
+            if with_types:
+                if self.__returntype:
+                    file.write(") : " + self.__returntype)
+                else:
+                    file.write(") : void")
             else:
-                file.write(") : void")
-
+                file.write(")")
 
 class Comment:
     def __init__(self):
@@ -352,7 +354,7 @@ class ClassParser:
                     if not method.is_constructor():
                         self.__methods.append(method)
                 else:
-                    print " <<<<<<<<<<<<<<<<<<<< FAIL >>>>>>>>>>>>>>> "
+                    print (" <<<<<<<<<<<<<<<<<<<< FAIL >>>>>>>>>>>>>>> ")
             elif constrdef and line.startswith(constrdef):
                 lineArray = [s for s in re.split(" |\.|=|,|\(|\)|\{|\}|;|\n", sline) if len(s.strip()) > 0]
                 if len(lineArray) > 3:
@@ -381,8 +383,6 @@ class ClassParser:
             method.render(file, self.__className)
             if idx < len(self.__methods) - 1:
                 file.write(",\n")
-            else:
-                file.write("\n")
         if with_comments:
             file.write("\n")
 
@@ -404,4 +404,4 @@ for p in parsers:
     p.render(resultfile)
 
 resultfile.close()
-print "Created Typescript definition File: " + result_filename
+print("Created Typescript definition File: " + result_filename)

@@ -53,7 +53,6 @@ interface Action {
     * @since Bitwig Studio 1.1
     */
      invoke() : void
-
 }
 
 /**
@@ -89,7 +88,6 @@ interface ActionCategory {
     * @since Bitwig Studio 1.1
     */
      getActions() : Action[]
-
 }
 
 /**
@@ -444,7 +442,6 @@ interface Application {
     * @since Bitwig Studio 1.0
     */
      toggleFullScreen() : void
-
 }
 
 /**
@@ -513,7 +510,6 @@ interface Arranger {
     * @since Bitwig Studio 1.1
     */
      areEffectTracksVisible() : BooleanValue
-
 }
 
 /**
@@ -578,7 +574,6 @@ interface AutomatableRangedValue extends RangedValue {
     * @since 1.1
     */
      restoreAutomationControl() : void
-
 }
 
 /**
@@ -620,7 +615,6 @@ interface BeatTime extends RangedValue {
     * @since Bitwig Studio 1.0
     */
      incRaw(delta : number) : void
-
 }
 
 /**
@@ -646,7 +640,6 @@ interface BitwigBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getTagsFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -669,7 +662,6 @@ interface BooleanValue extends Value {
     * @since Bitwig Studio 1.0
     */
      toggle(exclusive?) : void
-
 }
 
 /**
@@ -790,7 +782,6 @@ interface Browser {
     * @since Bitwig Studio 1.2
     */
      getMusicSession() : MusicBrowsingSession
-
 }
 
 /**
@@ -829,7 +820,6 @@ interface BrowserColumn {
     * @return {BrowserItemBank} the requested item bank object
     */
      createItemBank(size : number) : BrowserItemBank
-
 }
 
 /**
@@ -869,7 +859,6 @@ interface BrowserFilterColumn extends BrowserColumn {
     * @since Bitwig Studio 1.2
     */
      addNameObserver(maxCharacters : number, textWhenUnassigned : string, callback : (name: string ) => void) : void
-
 }
 
 /**
@@ -950,7 +939,6 @@ interface BrowserFilterColumnBank {
     * @since Bitwig Studio 1.2
     */
      addEntryCountObserver(callback : (count: number) => void) : void
-
 }
 
 /**
@@ -966,7 +954,6 @@ interface BrowserFilterItem extends BrowserItem {
     * @since Bitwig Studio 1.2
     */
      addHitCountObserver(callback : (count: number) => void) : void
-
 }
 
 /**
@@ -983,7 +970,6 @@ interface BrowserFilterItemBank extends BrowserItemBank {
     * @since Bitwig Studio 1.2
     */
      getItem(index : number) : BrowserFilterItem
-
 }
 
 /**
@@ -1015,7 +1001,6 @@ interface BrowserItem {
     * @since Bitwig Studio 1.2
     */
      isSelected() : BooleanValue
-
 }
 
 /**
@@ -1090,7 +1075,6 @@ interface BrowserItemBank {
     * @since Bitwig Studio 1.2
     */
      addCanScrollDownObserver(callback : (canscroll: boolean) => void) : void
-
 }
 
 /**
@@ -1114,7 +1098,6 @@ interface BrowserResultsColumn extends BrowserColumn {
     * @return {BrowserResultsItemBank} the requested item bank object
     */
      createItemBank(size : number) : BrowserResultsItemBank
-
 }
 
 /**
@@ -1140,7 +1123,6 @@ interface BrowserResultsItemBank extends BrowserItemBank {
     * @since Bitwig Studio 1.2
     */
      getItem(index : number) : BrowserResultsItem
-
 }
 
 /**
@@ -1223,7 +1205,6 @@ interface BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      addHitCountObserver(callback : (hitcount: number ) => void) : void
-
 }
 
 /**
@@ -1307,7 +1288,6 @@ interface BrowsingSessionBank {
     * @since Bitwig Studio 1.2
     */
      addEntryCountObserver(callback : (count: number ) => void) : void
-
 }
 
 /**
@@ -1403,7 +1383,6 @@ interface Channel extends DeviceChain {
     * @since Bitwig Studio 1.1.1
     */
      addIsSelectedInMixerObserver(callback : (selected: boolean ) => void) : void
-
 }
 
 /**
@@ -1548,7 +1527,6 @@ interface ChannelBank {
     * @since Bitwig Studio 1.0
     */
      addSendCountObserver(callback : (count: number ) => void) : void
-
 }
 
 /**
@@ -1826,7 +1804,6 @@ interface Clip {
     * @return {Track} a track object that represents the track which contains the clip.
     */
      getTrack() : Track
-
 }
 
 /**
@@ -1844,7 +1821,6 @@ interface ClipBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getFileTypeFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -1883,7 +1859,6 @@ interface ClipLauncherScenesOrSlots {
     * @since Bitwig Studio 1.0
     */
      addNameObserver(callback : (name: string) => void) : void
-
 }
 
 /**
@@ -1938,7 +1913,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     or not (`false`)
     * @since Bitwig Studio 1.0
     */
-     addIsSelectedObserver(callback : (selected: boolean) => void) : void,
+     addIsSelectedObserver(callback : (index: number, selected: boolean) => void) : void,
     /**
     * Registers an observer that reports which slots contain clips.
     *
@@ -1948,7 +1923,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     or not (`false`)
     * @since Bitwig Studio 1.0
     */
-     addHasContentObserver(callback : (hasContent: boolean ) => void) : void,
+     addHasContentObserver(callback : (index: number, hasContent: boolean ) => void) : void,
     /**
     * Registers an observer that reports the playback state of clips / slots. The reported states include
     * `stopped`, `playing`, `recording`, but also `queued for stop`, `queued for playback`, `queued for recording`.
@@ -1960,7 +1935,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     (`true`) or the actual playback state (`false`)
     * @since Bitwig Studio 1.1
     */
-     addPlaybackStateObserver(callback : (playback: boolean) => void) : void,
+     addPlaybackStateObserver(callback : (index: number, state: number, queued: boolean) => void) : void,
     /**
     * Registers an observer that reports which slots have clips that are currently playing.
     *
@@ -1970,7 +1945,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     (`true`) or not (`false`)
     * @since Bitwig Studio 1.0
     */
-     addIsPlayingObserver(callback : (playing: boolean) => void) : void,
+     addIsPlayingObserver(callback : (index: number, playing: boolean) => void) : void,
     /**
     * Registers an observer that reports which slots have clips that are currently recording.
     *
@@ -1980,7 +1955,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     (`true`) or not (`false`)
     * @since Bitwig Studio 1.0
     */
-     addIsRecordingObserver(callback : (recording: boolean) => void) : void,
+     addIsRecordingObserver(callback : (index: number, recording: boolean) => void) : void,
     /**
     * Add an observer if clip playback is queued on the slot.
     *
@@ -1990,7 +1965,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     for playback (`true`) or not (`false`)
     * @since Bitwig Studio 1.1
     */
-     addIsPlaybackQueuedObserver(callback : (playbackQueued: boolean) => void) : void,
+     addIsPlaybackQueuedObserver(callback : (index: number, playbackQueued: boolean) => void) : void,
     /**
     * Add an observer if clip recording is queued on the slot.
     *
@@ -2000,7 +1975,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     for recording (`true`) or not (`false`)
     * @since Bitwig Studio 1.1
     */
-     addIsRecordingQueuedObserver(callback : (recordingQueued: boolean) => void) : void,
+     addIsRecordingQueuedObserver(callback : (index: number, recordingQueued: boolean) => void) : void,
     /**
     * Add an observer if clip playback is queued to stop on the slot.
     *
@@ -2010,7 +1985,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     for stop (`true`) or not (`false`)
     * @since Bitwig Studio 1.1
     */
-     addIsStopQueuedObserver(callback : (stopQueued: boolean) => void) : void,
+     addIsStopQueuedObserver(callback : (index: number, stopQueued: boolean) => void) : void,
     /**
     * Registers an observer that reports the colors of clip in the current slot window.
     *
@@ -2021,7 +1996,7 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     4. the blue coordinate of the RBG color value
     * @since Bitwig Studio 1.0
     */
-     addColorObserver(callback : (red: number, green: number, blue: number) => void) : void,
+     addColorObserver(callback : (index: number, red: number, green: number, blue: number) => void) : void,
     /**
     * Specifies if the Bitwig Studio clip launcher should indicate which slots are part of the window.
     * By default indications are disabled.
@@ -2038,7 +2013,6 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     * @return {BooleanValue} a boolean value object.
     */
      isMasterTrackContentShownOnTrackGroups() : BooleanValue
-
 }
 
 /**
@@ -2089,7 +2063,6 @@ interface Cursor {
     * @since Bitwig Studio 1.1
     */
      addCanSelectNextObserver(callback : (canSelect: boolean) => void) : void
-
 }
 
 /**
@@ -2167,7 +2140,6 @@ interface CursorBrowserFilterItem extends BrowserFilterItem {
     * @since Bitwig Studio 1.2
     */
      moveToLastChild() : void
-
 }
 
 /**
@@ -2184,7 +2156,6 @@ interface CursorBrowserItem extends BrowserItem {
     * @return {BrowserItemBank} the requested item bank object
     */
      createSiblingsBank(numSiblings : number) : BrowserItemBank
-
 }
 
 /**
@@ -2221,7 +2192,6 @@ interface CursorChannel extends Cursor {
     * @since Bitwig Studio 1.2
     */
      selectChannel(channel : Channel) : void
-
 }
 
 /**
@@ -2321,7 +2291,6 @@ interface CursorDevice extends Cursor {
     * @since Bitwig Studio 1.1
     */
      selectLastInLayer(name : string) : void
-
 }
 
 /**
@@ -2343,7 +2312,6 @@ interface CursorDeviceSlot extends DeviceChain {
     * @param {string} slot
     */
      selectSlot(slot : string) : void
-
 }
 
 /**
@@ -2369,7 +2337,6 @@ interface CursorTrack extends CursorChannel {
     * @since Bitwig Studio 1.2
     */
      setCursorNavigationMode(mode : CursorNavigationMode) : void
-
 }
 
 /**
@@ -2806,7 +2773,6 @@ interface Device {
     * @since Bitwig Studio 1.1.6
     */
      createSiblingsDeviceBank(numDevices : number) : DeviceBank
-
 }
 
 /**
@@ -2900,7 +2866,6 @@ interface DeviceBank {
     * @since Bitwig Studio 1.1
     */
      addDeviceCountObserver(callback : (count: number) => void) : void
-
 }
 
 /**
@@ -2932,7 +2897,6 @@ interface DeviceBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getFileTypeFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -2980,7 +2944,6 @@ interface DeviceChain {
     * @since Bitwig Studio 1.1
     */
      createDeviceBank(numDevices : number) : DeviceBank
-
 }
 
 /**
@@ -3015,7 +2978,6 @@ interface DeviceLayerBank extends ChannelBank {
     * @since Bitwig Studio 1.1
     */
      getChannel(indexInBank : number) : DeviceLayer
-
 }
 
 /**
@@ -3041,7 +3003,6 @@ interface DirectParameterValueDisplayObserver {
     * @since Bitwig Studio 1.1.5
     */
      setObservedParameterIds(parameterIds : String[]) : void
-
 }
 
 /**
@@ -3086,7 +3047,6 @@ interface DrumPadBank extends ChannelBank {
     * @since Bitwig Studio 1.0
     */
      setIndication(shouldIndicate : boolean) : void
-
 }
 
 /**
@@ -3103,7 +3063,6 @@ interface EnumValue extends Value {
     * @since Bitwig Studio 1.0
     */
      set(name : string) : void
-
 }
 
 /**
@@ -3122,7 +3081,6 @@ interface GenericBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      addNameObserver(maxCharacters : number, textWhenUnassigned : string, callback : (name: string) => void) : void
-
 }
 
 /**
@@ -3173,7 +3131,6 @@ interface Groove {
     * @since Bitwig Studio 1.0
     */
      getAccentPhase() : AutomatableRangedValue
-
 }
 
 /**
@@ -3700,7 +3657,6 @@ interface Host {
     * @since Bitwig Studio 1.0.11
     */
      addDatagramPacketObserver(name : string, port : number, callback : (data) => void) : boolean
-
 }
 
 /**
@@ -3723,7 +3679,6 @@ interface IntegerValue extends Value {
     * @since Bitwig Studio 1.1
     */
      inc(amount : number) : void
-
 }
 
 /**
@@ -3755,7 +3710,6 @@ interface Macro {
     * @param {function} callback a callback function that receives a single string parameter.
     */
      addLabelObserver(numChars : number, textWhenUnassigned : string, callback : (name: string) => void) : void
-
 }
 
 /**
@@ -3808,7 +3762,6 @@ interface MidiIn {
     * @since Bitwig Studio 1.0
     */
      createNoteInput(name : string, ...masks: string[]) : NoteInput
-
 }
 
 /**
@@ -3846,7 +3799,6 @@ interface MidiOut {
     * @since Bitwig Studio 1.0
     */
      setShouldSendMidiBeatClock(shouldSendClock : boolean) : void
-
 }
 
 /**
@@ -3905,7 +3857,6 @@ interface Mixer {
     * @since Bitwig Studio 1.1
     */
      isCrossFadeSectionVisible() : BooleanValue
-
 }
 
 /**
@@ -3944,7 +3895,6 @@ interface ModulationSource {
     * @since Bitwig Studio 1.3.10
     */
      addIsMappedObserver(callback : (mapped: boolean) => void) : void
-
 }
 
 /**
@@ -3962,7 +3912,6 @@ interface MultiSampleBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getFileTypeFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -3980,7 +3929,6 @@ interface MusicBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getFileTypeFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -4065,7 +4013,6 @@ interface NoteInput {
     * @since Bitwig Studio 1.0
     */
      sendRawMidiEvent(status : number, data0 : number, data1 : number) : void
-
 }
 
 /**
@@ -4112,7 +4059,6 @@ interface NoteLane {
     * @since Bitwig Studio 1.0
     */
      play(velocity : number) : void
-
 }
 
 /**
@@ -4222,7 +4168,6 @@ interface NotificationSettings {
     * @since Bitwig Studio 1.1
     */
      setShouldShowValueNotifications(shouldShowNotifications : boolean) : void
-
 }
 
 /**
@@ -4264,7 +4209,6 @@ interface PresetBrowsingSession extends BitwigBrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getFileTypeFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -4290,7 +4234,6 @@ interface PrimaryDevice extends Device {
     * @since Bitwig Studio 1.0
     */
      addCanSwitchToDeviceObserver(deviceType, chainLocation, callback : (canSwitch: boolean) => void) : void
-
 }
 
 /**
@@ -4321,7 +4264,6 @@ interface Project {
     * @since Bitwig Studio 1.1.5
     */
      createSceneFromPlayingLauncherClips() : void
-
 }
 
 /**
@@ -4388,7 +4330,6 @@ interface RangedValue {
     * @since Bitwig Studio 1.1
     */
      incRaw(delta : number) : void
-
 }
 
 /**
@@ -4431,7 +4372,6 @@ interface RemoteConnection {
     * @since Bitwig Studio 1.0
     */
      send(data : number[]) : void
-
 }
 
 /**
@@ -4458,7 +4398,6 @@ interface RemoteSocket {
     * @since Bitwig Studio 1.0
     */
      getPort() : number
-
 }
 
 /**
@@ -4476,7 +4415,6 @@ interface SampleBrowsingSession extends BrowsingSession {
     * @since Bitwig Studio 1.2
     */
      getFileTypeFilter() : BrowserFilterColumn
-
 }
 
 /**
@@ -4539,7 +4477,6 @@ interface Scene {
     * @since Bitwig Studio 1.1
     */
      showInEditor() : void
-
 }
 
 /**
@@ -4633,7 +4570,6 @@ interface SceneBank {
     * @since Bitwig Studio 1.0
     */
      launchScene(indexInWindow : number) : void
-
 }
 
 /**
@@ -4680,7 +4616,6 @@ interface Setting {
     * @since Bitwig Studio 1.1
     */
      hide() : void
-
 }
 
 /**
@@ -4741,7 +4676,6 @@ interface Settings {
     * @since Bitwig Studio 1.1
     */
      getStringSetting(label : string, category : string, numChars : number, initialText : string) : StringValue
-
 }
 
 /**
@@ -4763,7 +4697,6 @@ interface Signal {
     * @since Bitwig Studio 1.1
     */
      fire() : void
-
 }
 
 /**
@@ -4780,7 +4713,6 @@ interface SoloValue extends BooleanValue {
     * @since Bitwig Studio 1.1
     */
      toggle(exclusive : boolean) : void
-
 }
 
 /**
@@ -4807,7 +4739,6 @@ interface SourceSelector {
     * @since Bitwig Studio 1.0
     */
      getHasAudioInputSelected() : BooleanValue
-
 }
 
 /**
@@ -4823,7 +4754,6 @@ interface StringValue extends Value {
     * @since Bitwig Studio 1.1
     */
      set(value : string) : void
-
 }
 
 /**
@@ -4861,7 +4791,6 @@ interface TimeSignatureValue extends Value {
     * @since Bitwig Studio 1.1
     */
      getTicks() : IntegerValue
-
 }
 
 /**
@@ -5150,7 +5079,6 @@ interface Track extends Channel {
     * @since Bitwig Studio 1.2
     */
      createSiblingsTrackBank(numTracks : number, numSends : number, numScenes : number, shouldIncludeEffectTracks : boolean, shouldIncludeMasterTrack : boolean) : TrackBank
-
 }
 
 /**
@@ -5256,7 +5184,6 @@ interface TrackBank extends ChannelBank {
     * @since Bitwig Studio 1.0
     */
      launchScene(indexInWindow : number) : void
-
 }
 
 /**
@@ -5668,7 +5595,6 @@ interface Transport {
     * @since Bitwig Studio 1.3.6
     */
      getClipLauncherPostRecordingTimeOffset() : BeatTime
-
 }
 
 /**
@@ -5686,7 +5612,6 @@ interface UserControlBank {
     * @since Bitwig Studio 1.0
     */
      getControl(index : number) : AutomatableRangedValue
-
 }
 
 /**
@@ -5701,7 +5626,6 @@ interface Value {
     * @param {function} callback a callback function that receives a single parameter
     * @since Bitwig Studio 1.0
     */
-     addValueObserver(callback : (value: number) => void) : void
-
+     addValueObserver(callback : (value) => void) : void
 }
 
