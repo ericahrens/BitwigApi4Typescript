@@ -1,5 +1,7 @@
 from os import listdir
 from os.path import isfile, join
+from sys import platform
+
 import re
 
 """
@@ -11,7 +13,11 @@ __version__ = "1.0.0"
 __maintainer__ = "Eric Ahrens"
 __email__ = "eric.n.ahrens@gmail.com"
 
-stubspath = "C:/Program Files (x86)/Bitwig Studio/resources/doc/control-surface/js-stubs"
+if platform == "darwin":
+    stubspath = "/Applications/Bitwig Studio.app/Contents/Resources/Documentation/control-surface/js-stubs"
+elif platform == "win32":
+    stubspath = "C:/Program Files (x86)/Bitwig Studio/resources/doc/control-surface/js-stubs"
+
 result_filename = "BitwigControllerApi.d.ts"
 with_comments = True
 with_types = True
