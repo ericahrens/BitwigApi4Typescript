@@ -1371,6 +1371,12 @@ interface Channel extends DeviceChain {
     */
      getSend(index : number) : AutomatableRangedValue,
     /**
+    * Duplicates the track.
+    *
+    * @since Bitwig Studio 1.3.15
+    */
+     duplicate() : void,
+    /**
     * Selects the device chain in the Bitwig Studio mixer, in case it is a selectable object.
     *
     * @since Bitwig Studio 1.1.1
@@ -1382,7 +1388,19 @@ interface Channel extends DeviceChain {
     * @param {function} callback a callback function that takes a single boolean parameter.
     * @since Bitwig Studio 1.1.1
     */
-     addIsSelectedInMixerObserver(callback : (selected: boolean ) => void) : void
+     addIsSelectedInMixerObserver(callback : (selected: boolean ) => void) : void,
+    /**
+    * Tries to scroll the contents of the arrangement editor so that the channel becomes visible.
+    *
+    * @since Bitwig Studio 1.3.15
+    */
+     makeVisibleInArranger() : void,
+    /**
+    * Tries to scroll the contents of the mixer panel so that the channel becomes visible.
+    *
+    * @since Bitwig Studio 1.3.15
+    */
+     makeVisibleInMixer() : void
 }
 
 /**
@@ -1781,6 +1799,18 @@ interface Clip {
     */
      addColorObserver(callback : (red: number, green: number, blue: number ) => void) : void,
     /**
+    * Duplicates the clip.
+    *
+    * @since Bitwig Studio 1.3.15
+    */
+     duplicate() : void,
+    /**
+    * Duplicates the content of the clip.
+    *
+    * @since Bitwig Studio 1.3.15
+    */
+     duplicateContent() : void,
+    /**
     * Transposes all notes in the clip by the given number of semitones.
     *
     * @param {int} semitones the amount of semitones to transpose, can be a positive or negative integer value.
@@ -1802,6 +1832,7 @@ interface Clip {
     * Gets the track that contains the clip.
     *
     * @return {Track} a track object that represents the track which contains the clip.
+    * @since Bitwig Studio 1.3.14
     */
      getTrack() : Track
 }
@@ -1904,6 +1935,13 @@ interface ClipLauncherSlots extends ClipLauncherScenesOrSlots {
     * @since Bitwig Studio 1.2
     */
      deleteClip(slot : number) : void,
+    /**
+    * Duplicates the clip in the slot with the given index.
+    *
+    * @param {int} slot the index of the slot within the slot window.
+    * @since Bitwig Studio 1.3.15
+    */
+     duplicateClip(slot : number) : void,
     /**
     * Registers an observer that reports selection changes for the slots inside the window.
     *
@@ -3507,6 +3545,14 @@ interface Host {
     */
      createEditorCursorDevice(numSends : number) : CursorDevice,
     /**
+    * @param {int} gridWidth
+    * @param {int} gridHeight
+    * @return {Clip}
+    * @throws ControlSurfaceException
+    * @since Bitwig Studio 1.0
+    */
+     createCursorClip(gridWidth : number, gridHeight : number) : void,
+    /**
     * Returns a clip object that represents the cursor of the launcher clip selection. The gridWidth and gridHeight
     * parameters specify the grid dimensions used to access the note content of the clip.
     *
@@ -3514,9 +3560,20 @@ interface Host {
     * @param {int} gridHeight the number of keys spanned by one page of the note content grid.
     * @return {Clip} an object representing the currently selected cursor clip
     * @throws ControlSurfaceException
-    * @since Bitwig Studio 1.0
+    * @since Bitwig Studio 1.3.15
     */
-     createCursorClip(gridWidth : number, gridHeight : number) : Clip,
+     createLauncherCursorClip(gridWidth : number, gridHeight : number) : Clip,
+    /**
+    * Returns a clip object that represents the cursor of the arranger clip selection. The gridWidth and gridHeight
+    * parameters specify the grid dimensions used to access the note content of the clip.
+    *
+    * @param {int} gridWidth the number of steps spanned by one page of the note content grid.
+    * @param {int} gridHeight the number of keys spanned by one page of the note content grid.
+    * @return {Clip} an object representing the currently selected cursor clip
+    * @throws ControlSurfaceException
+    * @since Bitwig Studio 1.3.15
+    */
+     createArrangerCursorClip(gridWidth : number, gridHeight : number) : Clip,
     /**
     * Returns an object that is used to define a bank of custom user controls. These controls are available to the user
     * for free controller assignments and are typically used when bank-wise navigation is inconvenient.
